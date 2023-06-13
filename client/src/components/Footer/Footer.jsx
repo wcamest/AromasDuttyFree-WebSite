@@ -23,7 +23,7 @@ export default function Footer() {
             </ul>
             <div className='w-full md:w-auto flex justify-center lg:justify-start gap-10 lg:gap-14'>
                 <a href="https://www.facebook.com" target='_blank'><FacebookIcon className="scale-200 lg:scale-300"/></a>
-                <a href="https://www.instagram.com" target='_blank'><InstagramIcon className="scale-200 lg:scale-300" /></a>
+                <a href="https://www.instagram.com/aromasdutyfreesai/" target='_blank'><InstagramIcon className="scale-200 lg:scale-300" /></a>
                 <a href="https://www.whatsapp.com" target='_blank'><WhatsappIcon className="scale-200 lg:scale-300" /></a>
             </div>
         </footer>

@@ -15,6 +15,9 @@ module.exports = {
       scale: {
         '200': '2',
         '300': '3',
+      },
+      minWidth: {
+        'xs' : '20rem'
       }
     },
   },
