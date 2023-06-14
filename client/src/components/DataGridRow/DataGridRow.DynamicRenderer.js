@@ -8,7 +8,7 @@ function DataGridRowDynamicRenderer(getState, payload) {
         const Columns = [];
 
         Columns.push(<DataGridColumn key={0} data={{ width: 60 }}>
-            <CheckBox />
+            <CheckBox value={payload.selected()} onChange={payload.CheckBox.Change}/>
         </DataGridColumn>);
 
         Columns.push(<DataGridTableHeaderDivider key={`divider_0`} />);

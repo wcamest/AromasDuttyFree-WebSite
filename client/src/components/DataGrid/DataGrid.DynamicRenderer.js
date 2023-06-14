@@ -10,7 +10,7 @@ function DataGridDynamicRenderer(getState, payload) {
         const Headers = [];
 
         Headers.push(<DataGridTableHeader key={0} data={{ width: 60 }}>
-            <CheckBox value={payload.TableHeaders.CheckBox.Value} onChange={payload.TableHeaders.CheckBox.Change}/>
+            <CheckBox value={payload.TableHeaders.CheckBox.Value} onChange={payload.TableHeaders.CheckBox.Change} />
         </DataGridTableHeader>);
 
         Headers.push(<DataGridTableHeaderDivider key={`divider_0`} />);
@@ -32,7 +32,15 @@ function DataGridDynamicRenderer(getState, payload) {
 
     this.Rows = () => {
         return payload.data.map((object, key) => {
-            return <DataGridRow key={key} data={object} columns={payload.columns} />
+            return <DataGridRow
+                key={key}
+                data={object}
+                columns={payload.columns}
+                selectedProducts={payload.product.selected}
+                selectSingleProduct={payload.product.selectSingle}
+                selectProduct={payload.product.select}
+                deselectProduct={payload.product.deselect}
+            />
         })
     }
 }

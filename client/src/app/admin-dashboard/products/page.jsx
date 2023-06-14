@@ -20,12 +20,15 @@ export default function page() {
       headerName: "Imagen",
       width: 100,
       query: (data) => {
-        if(!data.images.length)
+        if (!data.images.length)
           return null;
 
         return data.images[0].path;
       },
       render: (url) => {
+        if(!url)
+          return null;
+
         return <Image src={url} width={30} height={30} alt="preview" />
       }
     },
@@ -53,7 +56,14 @@ export default function page() {
       creatingProduct: false,
       data: null
     },
-    products: []
+    deleteProducts: {
+      visibleModal: false,
+      deletingProducts: false
+    },
+    products: {
+      all: [],
+      selected: []
+    }
   })
 
   const getState = () => {
@@ -75,17 +85,18 @@ export default function page() {
 
   return (
     <div className='h-full max-h-screen min-h-screen flex flex-col'>
-      <div className='py-2 h-full max-h-14 flex items-center'>
-        <SlateButton onClick={Events.Modals.CreateProduct.Open}>Crear Producto</SlateButton>
+      <div className='py-2 h-full max-h-14 flex items-center gap-2'>
+        <SlateButton onClick={Events.Modals.CreateProduct.Open}>Crear producto</SlateButton>
+        {state.products.selected.length ? <OutlineSlateButton onClick={Events.Modals.DeleteProducts.Open}>Eliminar producto(s)</OutlineSlateButton> : null}
       </div>
-      <DataGrid columns={columns} data={state.products}/>
+      <DataGrid columns={columns} data={state.products.all} selectedProducts={state.products.selected} selectSingleProduct={Functions.Products.SelectSingle} selectProduct={Functions.Products.Select} deselectProduct={Functions.Products.Deselect} />
       <Modal
         className="w-full h-full"
         visible={state.createProduct.visibleModal}
         onClose={Events.Modals.CreateProduct.Close}
         canClose={true}
         buttons={[
-          <OutlineSlateButton key={0} onClick={Events.Modals.CreateProduct.Close} disabled={state.createProduct.creatingProduct }>Cancelar</OutlineSlateButton>,
+          <OutlineSlateButton key={0} onClick={Events.Modals.CreateProduct.Close} disabled={state.createProduct.creatingProduct}>Cancelar</OutlineSlateButton>,
           <SlateButton key={1} disabled={state.createProduct.disableCreateButton || state.createProduct.creatingProduct} onClick={() => { Functions.CreateProduct.UploadData() }}>
             <span>{state.createProduct.creatingProduct ? "Creando" : "Crear"}</span>
             {state.createProduct.creatingProduct ? <ThreeDots
@@ -102,6 +113,30 @@ export default function page() {
         ]}
       >
         {state.createProduct.visibleModal && <ProductEditor setDisableUpdateButton={Functions.CreateProduct.DisableCreateButton.Set} updateFunction={Functions.CreateProduct.Update} />}
+      </Modal>
+      <Modal
+        className="w-96 h-36"
+        visible={state.deleteProducts.visibleModal}
+        onClose={Events.Modals.DeleteProducts.Close}
+        canClose={!state.deleteProducts.deletingProducts}
+        buttons={[
+          <OutlineSlateButton key={0} disabled={state.deleteProducts.deletingProducts} onClick={Events.Modals.DeleteProducts.Close}>Cancelar</OutlineSlateButton>,
+          <SlateButton key={1} disabled={state.deleteProducts.deletingProducts} onClick={Events.Modals.DeleteProducts.Button.Click}>
+            <span>{state.deleteProducts.deletingProducts ? "Eliminando" : "Eliminar"}</span>
+            {state.deleteProducts.deletingProducts ? <ThreeDots
+              height="25"
+              width="25"
+              radius="9"
+              color="#0f172a"
+              ariaLabel="three-dots-loading"
+              wrapperStyle={{}}
+              wrapperClassName=""
+              visible={true}
+            /> : null}
+          </SlateButton>
+        ]}
+      >
+        <span>Los productos seleccionados se borrarán permanentemente</span>
       </Modal>
     </div>
   )

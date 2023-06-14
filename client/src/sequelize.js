@@ -15,10 +15,10 @@ const Product = productModel(sequelize);
 const ProductImage = productImageModel(sequelize);
 const ProductFilter = productFilterModel(sequelize);
 
-Product.hasMany(ProductImage, {as: 'images', foreignKey: 'productId'});
-ProductImage.belongsTo(Product);
+Product.hasMany(ProductImage, {as: 'images', foreignKey: 'productId', onDelete:'cascade', hooks: true});
+ProductImage.belongsTo(Product, {as: 'product'});
 
-ProductFilter.hasMany(ProductFilter, {as: 'subFilters', foreignKey: 'parentId'});
+ProductFilter.hasMany(ProductFilter, {as: 'subFilters', foreignKey: 'parentId', onDelete:'cascade', hooks: true});
 ProductFilter.belongsTo(ProductFilter, {as: 'parent'});
 
 module.exports = {

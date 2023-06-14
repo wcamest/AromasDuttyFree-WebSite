@@ -1,4 +1,4 @@
-const createProductFilterTree = (allProductFilters, productFilterId) => {
+export const createProductFilterTree = (allProductFilters, productFilterId) => {
     const productFilter = allProductFilters.find((productFilterData) => {
         return productFilterData.id === productFilterId;
     });
@@ -15,4 +15,17 @@ const createProductFilterTree = (allProductFilters, productFilterId) => {
     }
 }
 
-export default createProductFilterTree;
+export const getAllProductFilters = (allProductFilters, productFilterId) => {
+    const productFilter = allProductFilters.find((productFilterData) => {
+        return productFilterData.id === productFilterId;
+    });
+
+    const subFilters = productFilter.subFilters.map((productFilterData) => {
+        return getAllProductFilters(allProductFilters, productFilterData.id);
+    });
+
+    return [
+        ...subFilters,
+        productFilter
+    ]
+}

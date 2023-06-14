@@ -14,7 +14,8 @@ export async function GET(request) {
                 as: 'images',
                 where: {
                     featuredImage: true
-                }
+                },
+                required: false
             }
         });
 

@@ -1,7 +1,7 @@
 import { generateId } from '@/utils/utils';
 import { NextResponse } from 'next/server';
 import { ProductFilter } from '@/sequelize';
-import createProductFilterTree from '../../ProductFilterTree';
+import {createProductFilterTree} from '../../ProductFilterTree';
 
 export async function DELETE(request, {params}) {
     try {
@@ -48,6 +48,7 @@ export async function DELETE(request, {params}) {
             all: allProductFilters
         });
     } catch (error) {
+        console.log(error);
         return NextResponse.json(
             {
                 message: error.message

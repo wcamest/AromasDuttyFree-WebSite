@@ -51,6 +51,14 @@ const ServerInterface = {
             } catch (error) {
                 console.error(error);
             }
+        },
+        async Delete(data){
+            try {
+                const response = await axios.put("/api/product/delete", data);
+                return response.data;
+            } catch (error) {
+                console.error(error);
+            }
         }
     }
 }

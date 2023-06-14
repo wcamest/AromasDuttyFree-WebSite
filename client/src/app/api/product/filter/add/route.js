@@ -1,15 +1,15 @@
 import { generateId } from '@/utils/utils';
 import { NextResponse } from 'next/server';
 import { ProductFilter } from '@/sequelize';
-import createProductFilterTree from '../ProductFilterTree';
+import { createProductFilterTree } from '../ProductFilterTree';
 
 export async function POST(request) {
     try {
-        const {filterName, parentId} = await request.json();
+        const { filterName, parentId } = await request.json();
 
-        let rootProductFilter = await ProductFilter.findOne({where: {filterName: "::root::"}});
+        let rootProductFilter = await ProductFilter.findOne({ where: { filterName: "::root::" } });
 
-        if(!rootProductFilter){
+        if (!rootProductFilter) {
 
             const rootProductFilterId = generateId();
 
@@ -19,7 +19,7 @@ export async function POST(request) {
             });
         }
 
-        if(!parentId){
+        if (!parentId) {
 
             const productFilterId = generateId();
 
@@ -30,7 +30,7 @@ export async function POST(request) {
         } else {
             const parentFilter = await ProductFilter.findByPk(parentId);
 
-            if(!parentFilter){
+            if (!parentFilter) {
                 return NextResponse.json({
                     status: 404,
                     code: 'PARENT_FILTER_NOT_FOUN',

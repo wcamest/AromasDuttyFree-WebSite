@@ -6,7 +6,7 @@ import DataGridEvents from './DataGrid.Events';
 
 export default function DataGrid(props) {
 
-    const {columns, data} = props;
+    const {columns, data, selectedProducts, selectSingleProduct, selectProduct, deselectProduct} = props;
     const [state, setState] = useState({
         TableHeaders: {
             CheckBox: {
@@ -31,6 +31,12 @@ export default function DataGrid(props) {
                 Value: state.TableHeaders.CheckBox.Value,
                 Change: Events.TableHeaders.CheckBox.Change
             }
+        },
+        product: {
+            selected: selectedProducts,
+            selectSingle: selectSingleProduct,
+            select: selectProduct,
+            deselect: deselectProduct
         }
     });
 

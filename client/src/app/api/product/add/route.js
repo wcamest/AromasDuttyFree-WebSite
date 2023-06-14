@@ -26,6 +26,9 @@ export async function POST(request) {
             }
         })
 
+        const offset = data.get("offset");
+        const limit = 30;
+
         const productRawData = {
             name: data.get("name"),
             productReference: data.get("productReference"),
@@ -42,7 +45,21 @@ export async function POST(request) {
             await productData.createImage(imageRawData);
         }
 
-        return NextResponse.json({ message: "ok" });
+        const products = await Product.findAll({
+            offset,
+            limit,
+            include: {
+                model: ProductImage,
+                as: 'images',
+                where: {
+                    featuredImage: true
+                },
+                required: false
+            }
+        });
+
+        return NextResponse.json(products);
+
     } catch (error) {
         console.error(error);
         return NextResponse.json(
