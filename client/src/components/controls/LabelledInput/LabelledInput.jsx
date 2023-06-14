@@ -1,7 +1,7 @@
 import React from 'react'
 import Input from '../Input/Input'
 
-export default function LabeledInput(props) {
+export default function LabelledInput(props) {
 
     const { className, inputClassName, label, display, icon, type, id, name, value, placeholder, onChange } = props;
 

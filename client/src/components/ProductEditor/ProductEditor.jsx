@@ -6,8 +6,8 @@ import ProductEditorEvents from './ProductEditor.Events';
 import ProductEditorRenderer from './ProductEditor.Renderer';
 import OutlineSlateButton from '../controls/OutlineSlateButton/OutlineSlateButton';
 import Input from '../controls/Input/Input';
-import LabeledInput from '../controls/LabeledInput/LabeledInput';
-import LabeledTextArea from '../controls/LabeledTextArea/LabeledTextArea';
+import LabelledInput from '../controls/LabelledInput/LabelledInput';
+import LabelledTextArea from '../controls/LabelledTextArea/LabelledTextArea';
 import TreeView from '../TreeView/TreeView';
 import TreeViewItem from '../TreeViewItem/TreeViewItem';
 import ServerInterface from '@/ServerInterface/ServerInterface';
@@ -85,13 +85,13 @@ export default function ProductEditor(props) {
             </div>
             <div className='w-full flex gap-2'>
                 <div className='w-6/12 flex flex-col gap-2'>
-                    <LabeledInput inputClassName="w-full" label="Nombre del producto" type="text" id="name" name="name" placeholder="Nombre del producto" value={state.productForm.name} onChange={Events.Inputs.Change} />
-                    <LabeledInput inputClassName="w-full" label="Referencia" type="text" id="productReference" name="productReference" placeholder="Referencia" value={state.productForm.productReference} onChange={Events.Inputs.Change} />
-                    <LabeledInput inputClassName="w-full" label="Precio de venta" type="text" id="salePrice" name="salePrice" placeholder="Precio de venta" value={state.productForm.salePrice} onChange={Events.Inputs.Change} />
+                    <LabelledInput inputClassName="w-full" label="Nombre del producto" type="text" id="name" name="name" placeholder="Nombre del producto" value={state.productForm.name} onChange={Events.Inputs.Change} />
+                    <LabelledInput inputClassName="w-full" label="Referencia" type="text" id="productReference" name="productReference" placeholder="Referencia" value={state.productForm.productReference} onChange={Events.Inputs.Change} />
+                    <LabelledInput inputClassName="w-full" label="Precio de venta" type="text" id="salePrice" name="salePrice" placeholder="Precio de venta" value={state.productForm.salePrice} onChange={Events.Inputs.Change} />
                     <span>{Functions.formattedSalePrice()}</span>
                 </div>
                 <div className='w-6/12 flex flex-col gap-2'>
-                    <LabeledTextArea className="h-full max-h-48" id="description" name="description" placeholder="Descripción del producto" onChange={Events.Inputs.Change}>{state.productForm.description}</LabeledTextArea>
+                    <LabelledTextArea className="h-full max-h-48" id="description" name="description" placeholder="Descripción del producto" onChange={Events.Inputs.Change}>{state.productForm.description}</LabelledTextArea>
                     <div style={{ height: "calc(100% - 100px)" }} className='w-full h-full flex flex-col justify-end gap-2'>
                         <span>Filtros y clasificaciones</span>
                         <div className='w-full h-full border border-solid border-slate-400 overflow-auto'>

@@ -1,6 +1,6 @@
 import React from 'react'
 
-export default function LabeledTextArea(props) {
+export default function LabelledTextArea(props) {
 
     const { className, id, name, placeholder, children, onChange } = props;
 

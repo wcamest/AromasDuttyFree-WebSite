@@ -5,7 +5,7 @@ import OutlineSlateButton from '../controls/OutlineSlateButton/OutlineSlateButto
 import Image from 'next/image';
 import ProductImageControlsEvents from './ProductImageControls.Events';
 import Modal from '../Modal/Modal';
-import LabeledInput from '../controls/LabeledInput/LabeledInput';
+import LabelledInput from '../controls/LabelledInput/LabelledInput';
 
 export default function ProductImageControls(props) {
 
@@ -69,7 +69,7 @@ export default function ProductImageControls(props) {
                 ]}
             >
                 <div className='w-full h-full flex justify-center items-center'>
-                    <LabeledInput className="w-full" inputClassName="w-full" label="Editar descripción" name="description" id="description" placeholder="Descripción" value={state.modals.editDescription.inputValue} onChange={Events.Modals.EditDescription.Input.Change} />
+                    <LabelledInput className="w-full" inputClassName="w-full" label="Editar descripción" name="description" id="description" placeholder="Descripción" value={state.modals.editDescription.inputValue} onChange={Events.Modals.EditDescription.Input.Change} />
                 </div>
             </Modal>
         </div>

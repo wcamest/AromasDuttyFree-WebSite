@@ -84,6 +84,19 @@ function ProductsFunctions(getState, payload) {
             });
         }
     }
+
+    this.Products = {
+        Set(data){
+            const state = getState();
+
+            state.set((stateObject) => {
+                return {
+                    ...stateObject,
+                    products: data
+                }
+            })
+        }
+    }
 }
 
 const convertBlobToFiles = async (images) => {

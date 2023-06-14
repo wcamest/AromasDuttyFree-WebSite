@@ -1,12 +1,12 @@
 import React, { useState } from 'react'
-import CheckBox from '../controls/CheckBox/CheckBox'
+import LabelledCheckBox from '../controls/LabelledCheckBox/LabelledCheckBox'
 import PlusSquareFillIcon from '../Icons/PlusSquareFillIcon';
 import TrashFIllIcon from '../Icons/TrashFIllIcon';
 import ProductFilterHeaderEvents from './ProductFilterHeader.Events';
 import Modal from '../Modal/Modal';
 import OutlineSlateButton from '../controls/OutlineSlateButton/OutlineSlateButton';
 import SlateButton from '../controls/SlateButton/SlateButton';
-import LabeledInput from '../controls/LabeledInput/LabeledInput';
+import LabelledInput from '../controls/LabelledInput/LabelledInput';
 import { ThreeDots } from 'react-loader-spinner';
 import PenFIllIcon from '../Icons/PenFIllIcon';
 
@@ -43,9 +43,9 @@ export default function ProductFilterHeader(props) {
 
     return (
         <div className='flex gap-2 items-center'>
-            {canCheck ? <CheckBox id={id} name={name} value={value} onChange={onChange}>
+            {canCheck ? <LabelledCheckBox id={id} name={name} value={value} onChange={onChange}>
                 {children}
-            </CheckBox> : <span>{children}</span>}
+            </LabelledCheckBox> : <span>{children}</span>}
             <button onClick={Events.Modals.AddFilter.Open}><PlusSquareFillIcon className="fill-slate-400 hover:fill-slate-500" /></button>
             {canRename && <button onClick={Events.Modals.RenameFilter.Open}><PenFIllIcon className="fill-slate-400 hover:fill-slate-500" /></button>}
             {canDelete && <button onClick={Events.Modals.DeleteFilter.Open}><TrashFIllIcon className="fill-slate-400 hover:fill-slate-500" /></button>}
@@ -72,7 +72,7 @@ export default function ProductFilterHeader(props) {
                 ]}
             >
                 <div className='w-full h-full flex justify-center items-center'>
-                    <LabeledInput className="w-full" inputClassName="w-full" label="Nuevo filtro" name="filterName" id="filterName" placeholder="Nombre" value={state.modals.addFilter.inputValue} onChange={Events.Modals.AddFilter.Input.Change} />
+                    <LabelledInput className="w-full" inputClassName="w-full" label="Nuevo filtro" name="filterName" id="filterName" placeholder="Nombre" value={state.modals.addFilter.inputValue} onChange={Events.Modals.AddFilter.Input.Change} />
                 </div>
             </Modal>
             <Modal
@@ -98,7 +98,7 @@ export default function ProductFilterHeader(props) {
                 ]}
             >
                 <div className='w-full h-full flex justify-center items-center'>
-                    <LabeledInput className="w-full" inputClassName="w-full" label="Renombrar filtro" name="filterName" id="filterName" placeholder="Nombre" value={state.modals.renameFilter.inputValue} onChange={Events.Modals.RenameFilter.Input.Change} />
+                    <LabelledInput className="w-full" inputClassName="w-full" label="Renombrar filtro" name="filterName" id="filterName" placeholder="Nombre" value={state.modals.renameFilter.inputValue} onChange={Events.Modals.RenameFilter.Input.Change} />
                 </div>
             </Modal>
             <Modal

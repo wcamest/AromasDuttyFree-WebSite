@@ -3,20 +3,31 @@
 import DataGrid from '@/components/DataGrid/DataGrid'
 import Modal from '@/components/Modal/Modal'
 import SlateButton from '@/components/controls/SlateButton/SlateButton'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import ProductsEvents from './Products.Events'
 import OutlineSlateButton from '@/components/controls/OutlineSlateButton/OutlineSlateButton'
 import ProductEditor from '@/components/ProductEditor/ProductEditor'
 import ProductsFunctions from './Products.Functions'
 import { ThreeDots } from 'react-loader-spinner'
+import ServerInterface from '@/ServerInterface/ServerInterface'
+import Image from 'next/image'
 
 export default function page() {
 
   const columns = [
     {
-      field: 'id',
-      headerName: "ID",
-      width: 50
+      field: 'featuredImage',
+      headerName: "Imagen",
+      width: 100,
+      query: (data) => {
+        if(!data.images.length)
+          return null;
+
+        return data.images[0].path;
+      },
+      render: (url) => {
+        return <Image src={url} width={30} height={30} alt="preview" />
+      }
     },
     {
       field: 'name',
@@ -24,7 +35,7 @@ export default function page() {
       width: 200
     },
     {
-      field: 'productReferenceId',
+      field: 'productReference',
       headerName: "Referencia",
       width: 200
     },
@@ -41,7 +52,8 @@ export default function page() {
       disableCreateButton: true,
       creatingProduct: false,
       data: null
-    }
+    },
+    products: []
   })
 
   const getState = () => {
@@ -54,12 +66,19 @@ export default function page() {
   const Functions = new ProductsFunctions(getState);
   const Events = new ProductsEvents(getState);
 
+  useEffect(() => {
+    (async () => {
+      const products = await ServerInterface.Product.All(0);
+      Functions.Products.Set(products);
+    })();
+  }, []);
+
   return (
-    <div className='h-full min-h-screen flex flex-col'>
-      <div className='h-full max-h-14 flex items-center'>
+    <div className='h-full max-h-screen min-h-screen flex flex-col'>
+      <div className='py-2 h-full max-h-14 flex items-center'>
         <SlateButton onClick={Events.Modals.CreateProduct.Open}>Crear Producto</SlateButton>
       </div>
-      <DataGrid columns={columns} />
+      <DataGrid columns={columns} data={state.products}/>
       <Modal
         className="w-full h-full"
         visible={state.createProduct.visibleModal}

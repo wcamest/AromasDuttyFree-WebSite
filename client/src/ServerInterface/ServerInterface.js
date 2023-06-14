@@ -36,6 +36,14 @@ const ServerInterface = {
         }
     },
     Product: {
+        async All(offset){
+            try {
+                const response = await axios.get(`/api/product/all?offset=${offset}`);
+                return response.data;
+            } catch (error) {
+                console.error(error);
+            }
+        },
         async Create(formData){
             try {
                 const response = await axios.post("/api/product/add", formData);

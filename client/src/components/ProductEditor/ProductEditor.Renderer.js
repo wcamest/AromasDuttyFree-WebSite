@@ -2,7 +2,7 @@ import Image from "next/image";
 import ProductImageGaleryItem from "../ProductImageGaleryItem/ProductImageGaleryItem";
 import TreeViewItem from "../TreeViewItem/TreeViewItem";
 import TreeView from "../TreeView/TreeView";
-import CheckBox from "../controls/CheckBox/CheckBox";
+import LabelledCheckBox from "../controls/LabelledCheckBox/LabelledCheckBox";
 import ProductFilterHeader from "../ProductFilterHeader/ProductFilterHeader";
 import ProductImageControls from "../ProductImageControls/ProductImageControls";
 
