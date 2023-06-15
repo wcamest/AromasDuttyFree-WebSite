@@ -6,6 +6,7 @@ import Image from 'next/image';
 import ProductImageControlsEvents from './ProductImageControls.Events';
 import Modal from '../Modal/Modal';
 import LabelledInput from '../controls/LabelledInput/LabelledInput';
+import { ThreeDots } from 'react-loader-spinner';
 
 export default function ProductImageControls(props) {
 

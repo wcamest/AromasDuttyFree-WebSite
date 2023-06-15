@@ -15,19 +15,20 @@ import ProductEditorFunctions from './ProductEditor.Functions';
 
 export default function ProductEditor(props) {
 
-    const { setDisableUpdateButton, updateFunction } = props;
+    const { initData, setDisableUpdateButton, updateFunction } = props;
 
     const [state, setState] = useState({
+        id: initData ? initData.id : null,
         productForm: {
-            name: '',
-            productReference: '',
-            description: '',
-            salePrice: 0,
+            name: initData ? initData.name : '',
+            productReference: initData ? initData.productReference : '',
+            description: initData ? initData.description : '',
+            salePrice: initData ? initData.salePrice : 0,
             disableUpdateButton: false
         },
         imageGalery: {
             images: [],
-            pendingToUpload: [],
+            pendingToDelete: [],
             selected: 0
         },
         productFilters: null,
@@ -65,6 +66,9 @@ export default function ProductEditor(props) {
             const filters = await ServerInterface.ProductFilter.All();
             Functions.ProductFilters.Update(filters);
         })();
+
+        Functions.ImageGalery.InitDataImages(initData);
+        updateFunction(state);
 
     }, []);
 

@@ -45,7 +45,7 @@ export default function DataGrid(props) {
             <div className='h-full max-h-10 bg-slate-800 text-slate-100 flex justify-stretch'>
                 {Renderer.TableHeaders()}
             </div>
-            <div style={{height: "calc(100% - 120px)"}} className='overflow-auto flex flex-col'>
+            <div style={{height: "calc(100% - 120px)"}} className='overflow-y-auto flex flex-col'>
                {Renderer.Rows()}
             </div>
         </div>

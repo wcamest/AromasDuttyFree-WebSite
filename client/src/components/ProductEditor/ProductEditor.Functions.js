@@ -12,18 +12,19 @@ function ProductEditorFunctions(getState, payload) {
     }
 
     this.ImageGalery = {
-        UpdateImage(data) {
+        UpdateImage(data, action) {
             const state = getState();
             const stateObject = state.stateObject;
+            const currentFeaturedImage = state.stateObject.imageGalery.images.find((imageData) => {
+                return imageData.featuredImage === true;
+            });
+
             const images = state.stateObject.imageGalery.images.map((imageData) => {
                 return {
                     ...imageData,
                     featuredImage: false
                 }
             });
-
-            const oldImageData = images[state.stateObject.imageGalery.selected];
-            const isPendingToUpload = state.stateObject.imageGalery.pendingToUpload.includes(oldImageData);
 
             images[state.stateObject.imageGalery.selected] = data;
 
@@ -46,7 +47,6 @@ function ProductEditorFunctions(getState, payload) {
             const state = getState();
             const stateObject = state.stateObject;
             let images = state.stateObject.imageGalery.images;
-            let pendingToUpload = state.stateObject.imageGalery.pendingToUpload;
             const selected = state.stateObject.imageGalery.selected;
             const toDelete = images[selected];
 
@@ -61,10 +61,6 @@ function ProductEditorFunctions(getState, payload) {
                 return imageData !== toDelete;
             });
 
-            pendingToUpload = images.filter((imageData) => {
-                return imageData !== toDelete;
-            });
-
             if (images.length && featuredImage)
                 images[updatedSelected].featuredImage = true;
 
@@ -73,9 +69,12 @@ function ProductEditorFunctions(getState, payload) {
                 imageGalery: {
                     ...stateObject.imageGalery,
                     selected: updatedSelected,
-                    images,
-                    pendingToUpload
+                    images
                 }
+            }
+
+            if(toDelete.DBData){
+                updatedStateObject.imageGalery.pendingToDelete.push(toDelete);
             }
 
             payload.updateFunction(updatedStateObject);
@@ -102,6 +101,33 @@ function ProductEditorFunctions(getState, payload) {
 
                 return updatedStateObject;
             });
+        },
+        InitDataImages(initData) {
+            if (!initData)
+                return null;
+
+            const state = getState();
+            state.set((stateObject) => {
+                return {
+                    ...stateObject,
+                    imageGalery: {
+                        ...stateObject.imageGalery,
+                        images: initData.images.map(imageData => {
+                            return {
+                                featuredImage: imageData.featuredImage,
+                                url: imageData.url,
+                                description: imageData.description,
+                                DBData: {
+                                    ...imageData
+                                }
+                            }
+                        })
+                    },
+                    appliedFilters:initData.filters.split("|").map(id => {
+                        return {id}
+                    })
+                }
+            })
         }
     }
 

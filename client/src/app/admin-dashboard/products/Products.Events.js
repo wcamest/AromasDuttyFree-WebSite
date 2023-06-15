@@ -2,15 +2,22 @@ import ServerInterface from "@/ServerInterface/ServerInterface";
 
 function ProductsEvents(getState) {
     this.Modals = {
-        CreateProduct: {
-            Open() {
+        CreateOrEditProduct: {
+            Open(event, initData, action, actionButtonLabel, disableCreateOrUpdateButton) {
+
+                event.stopPropagation();
+
                 const state = getState();
                 state.set((stateObject) => {
                     return {
                         ...stateObject,
-                        createProduct: {
-                            ...stateObject.createProduct,
-                            visibleModal: true
+                        createOrEditProduct: {
+                            ...stateObject.createOrEditProduct,
+                            visibleModal: true,
+                            disableCreateOrUpdateButton,
+                            initData,
+                            action,
+                            actionButtonLabel
                         }
                     }
                 })
@@ -20,9 +27,14 @@ function ProductsEvents(getState) {
                 state.set((stateObject) => {
                     return {
                         ...stateObject,
-                        createProduct: {
-                            ...stateObject.createProduct,
-                            visibleModal: false
+                        createOrEditProduct: {
+                            ...stateObject.createOrEditProduct,
+                            disableCreateOrUpdateButton: true,
+                            visibleModal: false,
+                            data: null,
+                            initData: null,
+                            action: null,
+                            actionButtonLabel: {idle: null, uploading: null}
                         }
                     }
                 })

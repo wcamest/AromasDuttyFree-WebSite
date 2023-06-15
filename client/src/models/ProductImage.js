@@ -9,7 +9,11 @@ module.exports = (sequelize) => {
                 isUUID: 4,
             }
         },
-        path: {
+        name: {
+            type: DataTypes.STRING,
+            allowNull: false,
+        },
+        url: {
             type: DataTypes.STRING,
             allowNull: false,
         },
