@@ -40,8 +40,8 @@ export default function Layout(props) {
                 <div className='w-full h-full overflow-hidden'>
                     {children}
                 </div>
-                <div className={`fixed p-1 w-screen ${state.mobileMenu.expanded ? "h-screen" : "h-10"} left-0 flex flex-col bg-white gap-2`}>
-                    <div className='block lg:hidden w-full h-8 flex justify-end items-center'>
+                <div className={`block lg:hidden fixed p-1 w-screen ${state.mobileMenu.expanded ? "h-screen" : "h-10"} left-0 flex flex-col bg-white gap-2`}>
+                    <div className='w-full h-8 flex justify-end items-center'>
                         <button
                             style={{ width: "32px", height: "32px" }}
                             className='hover:bg-slate-200 active:bg-slate-300 flex justify-center items-center'
