@@ -1,16 +1,17 @@
 import ServerInterface from "@/ServerInterface/ServerInterface";
+import ProductsController from "./ProductsController";
 
 function ProductsFunctions(getState, payload) {
-    this.CreateProduct = {
-        DisableCreateButton: {
+    this.CreateOrEditProduct = {
+        DisableCreateOrUpdateButton: {
             Set(value) {
                 const state = getState();
                 state.set(stateObject => {
                     return {
                         ...stateObject,
-                        createProduct: {
-                            ...stateObject.createProduct,
-                            disableCreateButton: value
+                        createOrEditProduct: {
+                            ...stateObject.createOrEditProduct,
+                            disableCreateOrUpdateButton: value
                         }
                     }
                 })
@@ -21,8 +22,8 @@ function ProductsFunctions(getState, payload) {
             state.set(stateObject => {
                 return {
                     ...stateObject,
-                    createProduct: {
-                        ...stateObject.createProduct,
+                    createOrEditProduct: {
+                        ...stateObject.createOrEditProduct,
                         data
                     }
                 }
@@ -30,73 +31,103 @@ function ProductsFunctions(getState, payload) {
         },
         async UploadData() {
             const state = getState();
-            const stateObject = state.stateObject;
-            const data = stateObject.createProduct.data;
-
-            const imageFiles = await convertBlobToFiles(data.imageGalery.pendingToUpload);
-            const pendingToUpdate = data.imageGalery.pendingToUpload.map((imageData, index) => {
-                return {
-                    description: imageData.description,
-                    featuredImage: imageData.featuredImage,
-                    image: `image${index}`
-                }
-            })
-
-            const formData = new FormData();
-
-            imageFiles.forEach((file, index) => {
-                formData.append(`image${index}`, file);
-            });
-
-            const filters = data.appliedFilters.map(filterData => {
-                return filterData.id
-            }).join("|");
-
-            formData.append("filters", filters);
-            formData.append("name", data.productForm.name);
-            formData.append("productReference", data.productForm.productReference);
-            formData.append("description", data.productForm.description);
-            formData.append("salePrice", data.productForm.salePrice);
-            formData.append("pendingToUpdate", JSON.stringify(pendingToUpdate));
-
             state.set((stateObject) => {
                 return {
                     ...stateObject,
-                    createProduct: {
-                        ...stateObject.createProduct,
-                        creatingProduct: true
+                    createOrEditProduct: {
+                        ...stateObject.createOrEditProduct,
+                        creatingOrUpdatingProduct: true
                     }
                 }
             });
 
-            const result = await ServerInterface.Product.Create(formData);
+            const data = await ProductsController.Upload(state);
 
             state.set((stateObject) => {
                 return {
                     ...stateObject,
-                    createProduct: {
-                        ...stateObject.createProduct,
-                        creatingProduct: false,
+                    createOrEditProduct: {
+                        ...stateObject.createOrEditProduct,
+                        disableCreateOrUpdateButton: true,
+                        creatingOrUpdatingProduct: false,
                         visibleModal: false,
-                        data: null
+                        data: null,
+                        initData: null,
+                        action: null,
+                        actionButtonLabel: { idle: null, uploading: null }
+                    },
+                    products: {
+                        all: data,
+                        selected: []
                     }
                 }
             });
         }
     }
-}
 
-const convertBlobToFiles = async (images) => {
-    const files = [];
+    this.Products = {
+        Set(data) {
+            const state = getState();
 
-    for (const imageData of images) {
-        const response = await fetch(imageData.url);
-        const blob = await response.blob();
-        const file = new File([blob], 'image.jpg', { type: blob.type });
-        files.push(file);
+            state.set((stateObject) => {
+                return {
+                    ...stateObject,
+                    products: {
+                        ...stateObject.products,
+                        all: data
+                    }
+                }
+            })
+        },
+        SelectSingle(data) {
+            const state = getState();
+
+            state.set((stateObject) => {
+                return {
+                    ...stateObject,
+                    products: {
+                        ...stateObject.products,
+                        selected: [
+                            data
+                        ]
+                    }
+                }
+            })
+        },
+        Select(data) {
+            const state = getState();
+
+            state.set((stateObject) => {
+                return {
+                    ...stateObject,
+                    products: {
+                        ...stateObject.products,
+                        selected: [
+                            ...stateObject.products.selected,
+                            data
+                        ]
+                    }
+                }
+            })
+        },
+        Deselect(data) {
+            const state = getState();
+
+            state.set((stateObject) => {
+                return {
+                    ...stateObject,
+                    products: {
+                        ...stateObject.products,
+                        selected: stateObject.products.selected.filter(productData => {
+                            return productData !== data
+                        })
+                    }
+                }
+            })
+        }
     }
 
-    return files;
-};
+    this.Modals
+}
 
 export default ProductsFunctions;

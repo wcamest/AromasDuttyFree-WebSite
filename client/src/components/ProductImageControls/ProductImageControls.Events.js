@@ -4,7 +4,7 @@ function ProductImageControlsEvents(getState, payload) {
             payload.updateImage({
                 ...payload.data,
                 featuredImage: true
-            })
+            }, "FEATURED_IMAGE")
         }
     }
 
@@ -87,7 +87,7 @@ function ProductImageControlsEvents(getState, payload) {
                     payload.updateImage({
                         ...payload.data,
                         description: state.stateObject.modals.editDescription.inputValue
-                    })
+                    }, "DESCRIPTION")
                 }
             }
         }

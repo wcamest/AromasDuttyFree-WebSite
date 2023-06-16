@@ -63,12 +63,19 @@ function ProductEditorEvents(getState, payload) {
                 const state = getState();
                 const stateObject = state.stateObject;
 
+                const pendingToDelete = stateObject.imageGalery.images.filter(imageData => {
+                    return imageData.DBData !== undefined;
+                });
+
                 const updatedStateObject = {
                     ...stateObject,
                     imageGalery: {
                         selected: 0,
                         images: [],
-                        pendingToUpload: []
+                        pendingToDelete: [
+                            ...stateObject.imageGalery.pendingToDelete,
+                            ...pendingToDelete
+                        ]
                     }
                 }
 
@@ -100,10 +107,6 @@ function ProductEditorEvents(getState, payload) {
                             ...stateObject.imageGalery,
                             images: [
                                 ...stateObject.imageGalery.images,
-                                newImageData
-                            ],
-                            pendingToUpload: [
-                                ...stateObject.imageGalery.pendingToUpload,
                                 newImageData
                             ]
                         }

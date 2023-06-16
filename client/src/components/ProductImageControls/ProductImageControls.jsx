@@ -5,7 +5,8 @@ import OutlineSlateButton from '../controls/OutlineSlateButton/OutlineSlateButto
 import Image from 'next/image';
 import ProductImageControlsEvents from './ProductImageControls.Events';
 import Modal from '../Modal/Modal';
-import LabeledInput from '../controls/LabeledInput/LabeledInput';
+import LabelledInput from '../controls/LabelledInput/LabelledInput';
+import { ThreeDots } from 'react-loader-spinner';
 
 export default function ProductImageControls(props) {
 
@@ -31,7 +32,7 @@ export default function ProductImageControls(props) {
 
     return (
         <div className='w-full h-full flex flex-col gap-2'>
-            <div className='h-full flex justify-center items-center'>
+            <div className='aspect-square flex justify-center items-center'>
                 <Image src={data.url} width={274} height={274} alt={data.description} />
             </div>
             <div className='h-max flex justify-center gap-2'>
@@ -69,7 +70,7 @@ export default function ProductImageControls(props) {
                 ]}
             >
                 <div className='w-full h-full flex justify-center items-center'>
-                    <LabeledInput className="w-full" inputClassName="w-full" label="Editar descripción" name="description" id="description" placeholder="Descripción" value={state.modals.editDescription.inputValue} onChange={Events.Modals.EditDescription.Input.Change} />
+                    <LabelledInput className="w-full" inputClassName="w-full" label="Editar descripción" name="description" id="description" placeholder="Descripción" value={state.modals.editDescription.inputValue} onChange={Events.Modals.EditDescription.Input.Change} />
                 </div>
             </Modal>
         </div>

@@ -3,6 +3,7 @@ function CheckBoxEvents(data){
         const value = !data.value;
 
         data.onChange && data.onChange({
+            nativeEvent: event,
             target: {
                 id: data.id,
                 name: data.name,

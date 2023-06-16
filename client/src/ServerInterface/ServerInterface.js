@@ -36,9 +36,25 @@ const ServerInterface = {
         }
     },
     Product: {
-        async Create(formData){
+        async All(offset){
             try {
-                const response = await axios.post("/api/product/add", formData);
+                const response = await axios.get(`/api/product/all?offset=${offset}`);
+                return response.data;
+            } catch (error) {
+                console.error(error);
+            }
+        },
+        async CreateOrUpdate(formData){
+            try {
+                const response = await axios.post("/api/product/create_or_update", formData);
+                return response.data;
+            } catch (error) {
+                console.error(error);
+            }
+        },
+        async Delete(data){
+            try {
+                const response = await axios.put("/api/product/delete", data);
                 return response.data;
             } catch (error) {
                 console.error(error);

@@ -1,7 +1,7 @@
 import { generateId } from '@/utils/utils';
 import { NextResponse } from 'next/server';
 import { ProductFilter } from '@/sequelize';
-import createProductFilterTree from '../ProductFilterTree';
+import { createProductFilterTree } from '../ProductFilterTree';
 
 export async function GET() {
     try {

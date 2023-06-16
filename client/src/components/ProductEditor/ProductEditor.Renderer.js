@@ -2,7 +2,7 @@ import Image from "next/image";
 import ProductImageGaleryItem from "../ProductImageGaleryItem/ProductImageGaleryItem";
 import TreeViewItem from "../TreeViewItem/TreeViewItem";
 import TreeView from "../TreeView/TreeView";
-import CheckBox from "../controls/CheckBox/CheckBox";
+import LabelledCheckBox from "../controls/LabelledCheckBox/LabelledCheckBox";
 import ProductFilterHeader from "../ProductFilterHeader/ProductFilterHeader";
 import ProductImageControls from "../ProductImageControls/ProductImageControls";
 
@@ -11,7 +11,7 @@ function ProductEditorRenderer(getState, payload) {
         const state = getState();
 
         if (!state.stateObject.imageGalery.images.length)
-            return null;
+            return <div className="w-full aspect-square"></div>;
 
         const images = state.stateObject.imageGalery.images;
         const selected = state.stateObject.imageGalery.selected;

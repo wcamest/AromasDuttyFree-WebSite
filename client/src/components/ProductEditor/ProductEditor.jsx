@@ -6,8 +6,8 @@ import ProductEditorEvents from './ProductEditor.Events';
 import ProductEditorRenderer from './ProductEditor.Renderer';
 import OutlineSlateButton from '../controls/OutlineSlateButton/OutlineSlateButton';
 import Input from '../controls/Input/Input';
-import LabeledInput from '../controls/LabeledInput/LabeledInput';
-import LabeledTextArea from '../controls/LabeledTextArea/LabeledTextArea';
+import LabelledInput from '../controls/LabelledInput/LabelledInput';
+import LabelledTextArea from '../controls/LabelledTextArea/LabelledTextArea';
 import TreeView from '../TreeView/TreeView';
 import TreeViewItem from '../TreeViewItem/TreeViewItem';
 import ServerInterface from '@/ServerInterface/ServerInterface';
@@ -15,19 +15,20 @@ import ProductEditorFunctions from './ProductEditor.Functions';
 
 export default function ProductEditor(props) {
 
-    const { setDisableUpdateButton, updateFunction } = props;
+    const { initData, setDisableUpdateButton, updateFunction } = props;
 
     const [state, setState] = useState({
+        id: initData ? initData.id : null,
         productForm: {
-            name: '',
-            productReference: '',
-            description: '',
-            salePrice: 0,
+            name: initData ? initData.name : '',
+            productReference: initData ? initData.productReference : '',
+            description: initData ? initData.description : '',
+            salePrice: initData ? initData.salePrice : 0,
             disableUpdateButton: false
         },
         imageGalery: {
             images: [],
-            pendingToUpload: [],
+            pendingToDelete: [],
             selected: 0
         },
         productFilters: null,
@@ -66,13 +67,18 @@ export default function ProductEditor(props) {
             Functions.ProductFilters.Update(filters);
         })();
 
+        Functions.ImageGalery.InitDataImages(initData);
+        updateFunction(state);
+
     }, []);
 
     return (
-        <div className='w-full h-full flex gap-2'>
-            <div className='w-full max-w-xs flex flex-col gap-2'>
-                <div className='w-full p-2 aspect-square bg-slate-300 flex justify-center items-center'>
-                    {Renderer.ProductImageControls()}
+        <div className='w-full h-full flex flex-col md:flex-row gap-2'>
+            <div className='w-full max-w-none md:max-w-xs flex flex-col gap-2'>
+                <div className='h-fit  bg-slate-300 flex justify-center items-center'>
+                    <div className='w-40 md:w-full p-2 flex justify-center items-center'>
+                        {Renderer.ProductImageControls()}
+                    </div>
                 </div>
                 <input className='hidden' ref={fileInputRef} type='file' accept="image/jpeg, image/png" onChange={Events.ImageGalery.FileInput.Change} />
                 <div className='flex gap-2'>
@@ -83,16 +89,16 @@ export default function ProductEditor(props) {
                     {Renderer.ImageGalery()}
                 </div>
             </div>
-            <div className='w-full flex gap-2'>
-                <div className='w-6/12 flex flex-col gap-2'>
-                    <LabeledInput inputClassName="w-full" label="Nombre del producto" type="text" id="name" name="name" placeholder="Nombre del producto" value={state.productForm.name} onChange={Events.Inputs.Change} />
-                    <LabeledInput inputClassName="w-full" label="Referencia" type="text" id="productReference" name="productReference" placeholder="Referencia" value={state.productForm.productReference} onChange={Events.Inputs.Change} />
-                    <LabeledInput inputClassName="w-full" label="Precio de venta" type="text" id="salePrice" name="salePrice" placeholder="Precio de venta" value={state.productForm.salePrice} onChange={Events.Inputs.Change} />
+            <div className='w-full flex flex-col lg:flex-row gap-2'>
+                <div className='w-full lg:w-6/12 flex flex-col gap-2'>
+                    <LabelledInput inputClassName="w-full" label="Nombre del producto" type="text" id="name" name="name" placeholder="Nombre del producto" value={state.productForm.name} onChange={Events.Inputs.Change} />
+                    <LabelledInput inputClassName="w-full" label="Referencia" type="text" id="productReference" name="productReference" placeholder="Referencia" value={state.productForm.productReference} onChange={Events.Inputs.Change} />
+                    <LabelledInput inputClassName="w-full" label="Precio de venta" type="text" id="salePrice" name="salePrice" placeholder="Precio de venta" value={state.productForm.salePrice} onChange={Events.Inputs.Change} />
                     <span>{Functions.formattedSalePrice()}</span>
                 </div>
-                <div className='w-6/12 flex flex-col gap-2'>
-                    <LabeledTextArea className="h-full max-h-48" id="description" name="description" placeholder="Descripción del producto" onChange={Events.Inputs.Change}>{state.productForm.description}</LabeledTextArea>
-                    <div style={{ height: "calc(100% - 100px)" }} className='w-full h-full flex flex-col justify-end gap-2'>
+                <div className='w-full lg:w-6/12 flex flex-col gap-2'>
+                    <LabelledTextArea className="h-full max-h-48" id="description" name="description" placeholder="Descripción del producto" onChange={Events.Inputs.Change}>{state.productForm.description}</LabelledTextArea>
+                    <div className='w-full h-full flex flex-col justify-end gap-2 overflow-hidden'>
                         <span>Filtros y clasificaciones</span>
                         <div className='w-full h-full border border-solid border-slate-400 overflow-auto'>
                             {Renderer.ProductFilters()}
