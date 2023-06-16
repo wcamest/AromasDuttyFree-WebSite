@@ -112,7 +112,7 @@ export default function Page() {
   }, []);
 
   return (
-    <div className='h-full max-h-screen min-h-screen flex flex-col'>
+    <div className='h-full flex flex-col overflow-hidden'>
       <div className='py-2 h-full max-h-14 flex items-center gap-2'>
         <SlateButton onClick={(event) => { Events.Modals.CreateOrEditProduct.Open(event, null, "CREATE", { idle: "Crear", uploading: "Creando" }, true) }}>Crear producto</SlateButton>
         {state.products.selected.length ? <OutlineSlateButton onClick={Events.Modals.DeleteProducts.Open}>Eliminar producto(s)</OutlineSlateButton> : null}

@@ -15,7 +15,7 @@ const port = {
     "production" : ""
 }
 
-const environment = "development";
+const environment = "production";
 
 const nextConfig = {
     images: {

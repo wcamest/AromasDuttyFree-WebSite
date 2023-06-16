@@ -6,7 +6,7 @@ import DataGridEvents from './DataGrid.Events';
 
 export default function DataGrid(props) {
 
-    const {columns, data, selectedProducts, selectSingleProduct, selectProduct, deselectProduct} = props;
+    const { columns, data, selectedProducts, selectSingleProduct, selectProduct, deselectProduct } = props;
     const [state, setState] = useState({
         TableHeaders: {
             CheckBox: {
@@ -41,12 +41,17 @@ export default function DataGrid(props) {
     });
 
     return (
-        <div style={{height: "calc(100vh - 56px)"}} className='flex flex-col'>
-            <div className='h-full max-h-10 bg-slate-800 text-slate-100 flex justify-stretch'>
-                {Renderer.TableHeaders()}
+        <div className='h-full flex flex-col overflow-hidden'>
+            <div className='h-full overflow-x-auto overflow-y-hidden flex flex-col'>
+                <div className='w-full min-w-fit h-10 bg-slate-800 text-slate-100 flex justify-stretch'>
+                    {Renderer.TableHeaders()}
+                </div>
+                <div className='w-full min-w-fit h-full overflow-x-hidden overflow-y-auto flex flex-col'>
+                    {Renderer.Rows()}
+                </div>
             </div>
-            <div style={{height: "calc(100% - 120px)"}} className='overflow-y-auto flex flex-col'>
-               {Renderer.Rows()}
+            <div className='h-20'>
+
             </div>
         </div>
     )

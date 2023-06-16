@@ -32,7 +32,7 @@ export default function ProductImageControls(props) {
 
     return (
         <div className='w-full h-full flex flex-col gap-2'>
-            <div className='h-full flex justify-center items-center'>
+            <div className='aspect-square flex justify-center items-center'>
                 <Image src={data.url} width={274} height={274} alt={data.description} />
             </div>
             <div className='h-max flex justify-center gap-2'>

@@ -35,7 +35,7 @@ export default function DataGridRow(props) {
     });
 
     return (
-        <div className={`h-full max-h-10 ${Functions.Selected() ? 'bg-slate-400' : 'hover:bg-slate-200 active:bg-slate-300'} ${Functions.Selected() ? 'text-slate-100' : 'text-slate-950'} flex justify-start`} onClick={Events.Click}>
+        <div className={`w-full h-full max-h-10 ${Functions.Selected() ? 'bg-slate-400' : 'hover:bg-slate-200 active:bg-slate-300'} ${Functions.Selected() ? 'text-slate-100' : 'text-slate-950'} flex justify-start`} onClick={Events.Click}>
             {Renderer.Columns()}
         </div>
     )
