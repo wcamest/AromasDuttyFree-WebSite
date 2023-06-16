@@ -7,10 +7,10 @@ import ListItemDynamicRenderer from './ListItem.DynamicRenderer';
 
 export default function ListItem(props) {
 
-    const { getState, index, href, children } = props;
+    const { getState, index, href, children, onClick } = props;
     const router = useRouter();
 
-    const Events = new ListItemEvents(getState, { href, index, router });
+    const Events = new ListItemEvents(getState, { href, index, router, onClick });
     const Renderer = new ListItemDynamicRenderer(getState, { index });
 
     return (

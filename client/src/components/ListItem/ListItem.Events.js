@@ -7,6 +7,7 @@ function ListItemEvents(getState, payload){
                 selectedIndex: payload.index
             }
         });
+        payload.onClick(event);
 
         payload.router.push(payload.href);
     }

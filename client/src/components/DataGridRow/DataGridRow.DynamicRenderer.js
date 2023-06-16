@@ -17,7 +17,7 @@ function DataGridRowDynamicRenderer(getState, payload) {
             const columnData = payload.columns[it];
 
             let value = columnData.query ? columnData.query(payload.data) : payload.data[columnData.field];
-            let component = columnData.render ? columnData.render(value) : <span>{value}</span>;
+            let component = columnData.render ? columnData.render(value, payload.selected()) : <span>{value}</span>;
 
             Columns.push(<DataGridColumn key={it + 1} data={columnData}>
                 {component}

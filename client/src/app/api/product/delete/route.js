@@ -1,7 +1,13 @@
 import { NextResponse } from 'next/server';
 import { Product, ProductImage } from '@/sequelize';
-import fs from "fs";
+import axios from 'axios';
 
+const image_server_url = {
+    "development" : "http://localhost:3001",
+    "production" : "https://images.aromasdutyfree.com"
+}
+
+const environment = process.env.NODE_ENV;
 
 export async function PUT(request) {
     try {
@@ -20,13 +26,9 @@ export async function PUT(request) {
                 ]
             });
 
-            for (let it2 = 0; it2 < productData.images.length; it2++) {
-                const productImageData = productData.images[it2];
-                const path = `${process.cwd()}/public${productImageData.path}`;
-
-                fs.unlinkSync(path);
-            }
-
+            await axios.put(`${image_server_url[environment]}/delete`, {directory: "products", toDelete: productData.images.map(imageData => {
+                return imageData.name;
+            })});
             await productData.destroy();
         }
 
@@ -36,9 +38,6 @@ export async function PUT(request) {
             include: {
                 model: ProductImage,
                 as: 'images',
-                where: {
-                    featuredImage: true
-                },
                 required: false
             }
         });

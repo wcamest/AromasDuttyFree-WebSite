@@ -11,7 +11,7 @@ function ProductEditorRenderer(getState, payload) {
         const state = getState();
 
         if (!state.stateObject.imageGalery.images.length)
-            return null;
+            return <div className="w-full aspect-square"></div>;
 
         const images = state.stateObject.imageGalery.images;
         const selected = state.stateObject.imageGalery.selected;

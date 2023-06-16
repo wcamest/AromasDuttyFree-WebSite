@@ -3,12 +3,13 @@ import React from 'react'
 import Input from '../controls/Input/Input'
 import SearchIcon from '../Icons/SearchIcon'
 import ListIcon from '../Icons/ListIcon'
+import Image from 'next/image'
 
 export default function NavBar() {
     return (
         <nav className='sticky top-0 h-16 p-2 bg-zinc-300 border-b border-b-solid border-b-zinc-500 flex justify-between'>
             <div className='px-2.5 bg-zinc-400 text-zinc-800 flex items-center gap-10'>
-                Aromas Duty Free Logo
+                <Image className='h-min' src="/logo.svg" width={122.34} height={40} alt="aromas duty free logo" />
                 <Input display='hidden lg:flex' className='w-36 lg:w-48 pl-8' type="text" icon={SearchIcon} />
             </div>
             <div className='hidden lg:flex px-10 lg:px-20 bg-zinc-400 flex justify-between items-center gap-x-10'>

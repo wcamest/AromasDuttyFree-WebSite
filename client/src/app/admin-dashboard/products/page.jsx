@@ -11,50 +11,22 @@ import ProductsFunctions from './Products.Functions'
 import { ThreeDots } from 'react-loader-spinner'
 import ServerInterface from '@/ServerInterface/ServerInterface'
 import Image from 'next/image'
+import PenFIllIcon from '@/components/Icons/PenFIllIcon'
 
-export default function page() {
-
-  const columns = [
-    {
-      field: 'featuredImage',
-      headerName: "Imagen",
-      width: 100,
-      query: (data) => {
-        if (!data.images.length)
-          return null;
-
-        return data.images[0].path;
-      },
-      render: (url) => {
-        if(!url)
-          return null;
-
-        return <Image src={url} width={30} height={30} alt="preview" />
-      }
-    },
-    {
-      field: 'name',
-      headerName: "Nombre",
-      width: 200
-    },
-    {
-      field: 'productReference',
-      headerName: "Referencia",
-      width: 200
-    },
-    {
-      field: 'salePrice',
-      headerName: "precio de venta",
-      width: 150
-    }
-  ];
+export default function Page() {
 
   const [state, setState] = useState({
-    createProduct: {
+    createOrEditProduct: {
       visibleModal: false,
-      disableCreateButton: true,
-      creatingProduct: false,
-      data: null
+      disableCreateOrUpdateButton: true,
+      creatingOrUpdatingProduct: false,
+      data: null,
+      initData: null,
+      action: null,
+      actionButtonLabel: {
+        idle: null,
+        uploading: null
+      }
     },
     deleteProducts: {
       visibleModal: false,
@@ -76,6 +48,62 @@ export default function page() {
   const Functions = new ProductsFunctions(getState);
   const Events = new ProductsEvents(getState);
 
+
+  const columns = [
+    {
+      field: 'featuredImage',
+      headerName: "Imagen",
+      width: 100,
+      query: (data) => {
+        if (!data.images.length)
+          return null;
+
+        const image = data.images.find((imageData => {
+          return imageData.featuredImage === true
+        }));
+
+        if(!image)
+          return null;
+
+        return image.url;
+      },
+      render: (url) => {
+        if (!url)
+          return null;
+
+        return <Image src={url} width={30} height={30} alt="preview" />
+      }
+    },
+    {
+      field: 'name',
+      headerName: "Nombre",
+      width: 200
+    },
+    {
+      field: 'productReference',
+      headerName: "Referencia",
+      width: 200
+    },
+    {
+      field: 'salePrice',
+      headerName: "Precio de venta",
+      width: 150
+    },
+    {
+      field: null,
+      headerName: "Editar",
+      query: (data) => {
+        return data;
+      },
+      render: (data, selected) => {
+        return <button
+          className={`p-2 ${selected ? "hover:bg-slate-500" : "hover:bg-slate-300"} ${selected ? "active:bg-slate-600" : "active:bg-slate-400"} rounded-full`}
+          onClick={(event) => { Events.Modals.CreateOrEditProduct.Open(event, data, "UPDATE", { idle: "Guardar", uploading: "Guardando" }, false) }}
+        ><PenFIllIcon /></button>
+      }
+    }
+  ];
+
   useEffect(() => {
     (async () => {
       const products = await ServerInterface.Product.All(0);
@@ -84,22 +112,26 @@ export default function page() {
   }, []);
 
   return (
-    <div className='h-full max-h-screen min-h-screen flex flex-col'>
+    <div className='h-full flex flex-col overflow-hidden'>
       <div className='py-2 h-full max-h-14 flex items-center gap-2'>
-        <SlateButton onClick={Events.Modals.CreateProduct.Open}>Crear producto</SlateButton>
+        <SlateButton onClick={(event) => { Events.Modals.CreateOrEditProduct.Open(event, null, "CREATE", { idle: "Crear", uploading: "Creando" }, true) }}>Crear producto</SlateButton>
         {state.products.selected.length ? <OutlineSlateButton onClick={Events.Modals.DeleteProducts.Open}>Eliminar producto(s)</OutlineSlateButton> : null}
       </div>
       <DataGrid columns={columns} data={state.products.all} selectedProducts={state.products.selected} selectSingleProduct={Functions.Products.SelectSingle} selectProduct={Functions.Products.Select} deselectProduct={Functions.Products.Deselect} />
       <Modal
         className="w-full h-full"
-        visible={state.createProduct.visibleModal}
-        onClose={Events.Modals.CreateProduct.Close}
+        visible={state.createOrEditProduct.visibleModal}
+        onClose={Events.Modals.CreateOrEditProduct.Close}
         canClose={true}
         buttons={[
-          <OutlineSlateButton key={0} onClick={Events.Modals.CreateProduct.Close} disabled={state.createProduct.creatingProduct}>Cancelar</OutlineSlateButton>,
-          <SlateButton key={1} disabled={state.createProduct.disableCreateButton || state.createProduct.creatingProduct} onClick={() => { Functions.CreateProduct.UploadData() }}>
-            <span>{state.createProduct.creatingProduct ? "Creando" : "Crear"}</span>
-            {state.createProduct.creatingProduct ? <ThreeDots
+          <OutlineSlateButton key={0} onClick={Events.Modals.CreateOrEditProduct.Close} disabled={state.createOrEditProduct.creatingOrUpdatingProduct}>Cancelar</OutlineSlateButton>,
+          <SlateButton key={1} disabled={state.createOrEditProduct.disableCreateOrUpdateButton || state.createOrEditProduct.creatingOrUpdatingProduct} onClick={() => { Functions.CreateOrEditProduct.UploadData() }}>
+            <span>{
+            state.createOrEditProduct.creatingOrUpdatingProduct ? 
+            state.createOrEditProduct.actionButtonLabel.uploading : 
+            state.createOrEditProduct.actionButtonLabel.idle
+            }</span>
+            {state.createOrEditProduct.creatingOrUpdatingProduct ? <ThreeDots
               height="25"
               width="25"
               radius="9"
@@ -112,7 +144,7 @@ export default function page() {
           </SlateButton>
         ]}
       >
-        {state.createProduct.visibleModal && <ProductEditor setDisableUpdateButton={Functions.CreateProduct.DisableCreateButton.Set} updateFunction={Functions.CreateProduct.Update} />}
+        {state.createOrEditProduct.visibleModal && <ProductEditor initData={state.createOrEditProduct.initData} setDisableUpdateButton={Functions.CreateOrEditProduct.DisableCreateOrUpdateButton.Set} updateFunction={Functions.CreateOrEditProduct.Update} />}
       </Modal>
       <Modal
         className="w-96 h-36"

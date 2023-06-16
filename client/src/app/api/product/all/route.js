@@ -12,9 +12,6 @@ export async function GET(request) {
             include: {
                 model: ProductImage,
                 as: 'images',
-                where: {
-                    featuredImage: true
-                },
                 required: false
             }
         });

@@ -2,16 +2,16 @@ import ServerInterface from "@/ServerInterface/ServerInterface";
 import ProductsController from "./ProductsController";
 
 function ProductsFunctions(getState, payload) {
-    this.CreateProduct = {
-        DisableCreateButton: {
+    this.CreateOrEditProduct = {
+        DisableCreateOrUpdateButton: {
             Set(value) {
                 const state = getState();
                 state.set(stateObject => {
                     return {
                         ...stateObject,
-                        createProduct: {
-                            ...stateObject.createProduct,
-                            disableCreateButton: value
+                        createOrEditProduct: {
+                            ...stateObject.createOrEditProduct,
+                            disableCreateOrUpdateButton: value
                         }
                     }
                 })
@@ -22,8 +22,8 @@ function ProductsFunctions(getState, payload) {
             state.set(stateObject => {
                 return {
                     ...stateObject,
-                    createProduct: {
-                        ...stateObject.createProduct,
+                    createOrEditProduct: {
+                        ...stateObject.createOrEditProduct,
                         data
                     }
                 }
@@ -34,9 +34,9 @@ function ProductsFunctions(getState, payload) {
             state.set((stateObject) => {
                 return {
                     ...stateObject,
-                    createProduct: {
-                        ...stateObject.createProduct,
-                        creatingProduct: true
+                    createOrEditProduct: {
+                        ...stateObject.createOrEditProduct,
+                        creatingOrUpdatingProduct: true
                     }
                 }
             });
@@ -46,11 +46,15 @@ function ProductsFunctions(getState, payload) {
             state.set((stateObject) => {
                 return {
                     ...stateObject,
-                    createProduct: {
-                        ...stateObject.createProduct,
-                        creatingProduct: false,
+                    createOrEditProduct: {
+                        ...stateObject.createOrEditProduct,
+                        disableCreateOrUpdateButton: true,
+                        creatingOrUpdatingProduct: false,
                         visibleModal: false,
-                        data: null
+                        data: null,
+                        initData: null,
+                        action: null,
+                        actionButtonLabel: { idle: null, uploading: null }
                     },
                     products: {
                         all: data,
@@ -122,6 +126,8 @@ function ProductsFunctions(getState, payload) {
             })
         }
     }
+
+    this.Modals
 }
 
 export default ProductsFunctions;

@@ -44,9 +44,9 @@ const ServerInterface = {
                 console.error(error);
             }
         },
-        async Create(formData){
+        async CreateOrUpdate(formData){
             try {
-                const response = await axios.post("/api/product/add", formData);
+                const response = await axios.post("/api/product/create_or_update", formData);
                 return response.data;
             } catch (error) {
                 console.error(error);
