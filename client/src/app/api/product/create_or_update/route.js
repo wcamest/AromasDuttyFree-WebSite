@@ -36,7 +36,7 @@ export async function POST(request) {
             return {
                 featuredImage: imageData.featuredImage,
                 description: imageData.description,
-                url: `${image_server_url[environment]}/products/${imageName}`,
+                url: `${image_server_url[environment]}/get/products/${imageName}`,
                 name: imageName
             }
         });

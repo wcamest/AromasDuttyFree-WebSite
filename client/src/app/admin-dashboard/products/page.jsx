@@ -62,7 +62,7 @@ export default function Page() {
           return imageData.featuredImage === true
         }));
 
-        if(!image)
+        if (!image)
           return null;
 
         return image.url;
@@ -71,7 +71,9 @@ export default function Page() {
         if (!url)
           return null;
 
-        return <Image src={url} width={30} height={30} alt="preview" />
+        return <div style={{width: "30px", height: "30px"}} className='relative'>
+          <Image src={`${url}?box_size=30`} fill={true} alt="preview" />
+        </div>
       }
     },
     {
@@ -127,9 +129,9 @@ export default function Page() {
           <OutlineSlateButton key={0} onClick={Events.Modals.CreateOrEditProduct.Close} disabled={state.createOrEditProduct.creatingOrUpdatingProduct}>Cancelar</OutlineSlateButton>,
           <SlateButton key={1} disabled={state.createOrEditProduct.disableCreateOrUpdateButton || state.createOrEditProduct.creatingOrUpdatingProduct} onClick={() => { Functions.CreateOrEditProduct.UploadData() }}>
             <span>{
-            state.createOrEditProduct.creatingOrUpdatingProduct ? 
-            state.createOrEditProduct.actionButtonLabel.uploading : 
-            state.createOrEditProduct.actionButtonLabel.idle
+              state.createOrEditProduct.creatingOrUpdatingProduct ?
+                state.createOrEditProduct.actionButtonLabel.uploading :
+                state.createOrEditProduct.actionButtonLabel.idle
             }</span>
             {state.createOrEditProduct.creatingOrUpdatingProduct ? <ThreeDots
               height="25"
