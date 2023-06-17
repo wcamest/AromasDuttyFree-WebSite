@@ -9,6 +9,8 @@ export async function POST(request) {
 
         let rootProductFilter = await ProductFilter.findOne({ where: { filterName: "::root::" } });
 
+        console.log(`parent filter id: ${parentId}`)
+
         if (!rootProductFilter) {
 
             const rootProductFilterId = generateId();
@@ -33,6 +35,7 @@ export async function POST(request) {
             if (!parentFilter) {
                 return NextResponse.json({
                     status: 404,
+                    parentId,
                     code: 'PARENT_FILTER_NOT_FOUN',
                     message: 'FIltro padre no encontrado'
                 }, {

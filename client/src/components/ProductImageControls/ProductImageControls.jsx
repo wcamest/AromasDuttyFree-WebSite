@@ -31,9 +31,9 @@ export default function ProductImageControls(props) {
     const Events = new ProductImageControlsEvents(getState, {data, updateImage, deleteImage});
 
     return (
-        <div className='w-full h-full flex flex-col gap-2'>
-            <div className='aspect-square flex justify-center items-center'>
-                <Image src={data.url} width={274} height={274} alt={data.description} />
+        <div className='w-full h-full flex flex-col items-center gap-2'>
+            <div style={{width: "274px", height: "274px"}} className='relative aspect-square flex justify-center items-center'>
+                <Image src={`${data.url}?box_size=274px`} fill={true} alt={data.description} />
             </div>
             <div className='h-max flex justify-center gap-2'>
                 <SlateButton size="small" disabled={data.featuredImage} onClick={Events.FeaturedImageButton.Click}>

@@ -15,7 +15,7 @@ const port = {
     "production" : ""
 }
 
-const environment = "production";
+const environment = "development";
 
 const nextConfig = {
     images: {
@@ -25,7 +25,7 @@ const nextConfig = {
                 hostname: hostname[environment],
                 port: port[environment],
             },
-        ],
+        ]
     },
 }
 
